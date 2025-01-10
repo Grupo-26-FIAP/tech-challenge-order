@@ -1,0 +1,33 @@
+name: SonarQube (CI)
+on:
+  push:
+    branches:
+      - main
+  #pull_request:
+  #types: [opened, synchronize, reopened]
+jobs:
+  sonarqube:
+    name: SonarQube
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/hydrogen
+          cache: 'npm'
+      - run: |
+          npm ci
+          npm run build
+
+      - name: Test and coverage
+        run: npm jest --coverage
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
