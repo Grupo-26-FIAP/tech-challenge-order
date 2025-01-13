@@ -1,9 +1,7 @@
-import { ProductEntity } from './product.entity';
-
 export class ProductOrderEntity {
   constructor(
     public quantity: number,
-    public product: ProductEntity,
+    public product: any,
     public createdAt: Date,
     public id?: number,
   ) {}

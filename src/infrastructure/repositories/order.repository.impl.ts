@@ -3,11 +3,7 @@ import { IOrderRepository } from '@Domain/repositories/order.repository';
 import { OrderMapper } from '@Infrastructure/typeorm/mappers/order.mapper';
 import { OrderModel } from '@Infrastructure/typeorm/models/order.model';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
-import { PaymentStatusType } from '@Shared/enums/payment-status-type.enum';
-import { UserRoleEnum } from '@Shared/enums/user-role.enum';
-import { ITokenPayload } from '@Shared/interfaces/token-payload.interface';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 export class OrderRepositoryImpl implements IOrderRepository {
   constructor(
@@ -35,26 +31,26 @@ export class OrderRepositoryImpl implements IOrderRepository {
     await this.repository.softDelete(id);
   }
 
-  async findAll(userToken: ITokenPayload): Promise<OrderEntity[]> {
-    const whereClause = userToken.roles.includes(UserRoleEnum.PREP_LINE)
-      ? {
-          paymentStatus: PaymentStatusType.APPROVED,
-          orderStatus: In([
-            OrderStatusType.RECEIVED,
-            OrderStatusType.IN_PREPARATION,
-            OrderStatusType.READY,
-          ]),
-        }
-      : {};
+  // async findAll(userToken: ITokenPayload): Promise<OrderEntity[]> {
+  //   const whereClause = userToken.roles.includes(UserRoleEnum.PREP_LINE)
+  //     ? {
+  //         paymentStatus: PaymentStatusType.APPROVED,
+  //         orderStatus: In([
+  //           OrderStatusType.RECEIVED,
+  //           OrderStatusType.IN_PREPARATION,
+  //           OrderStatusType.READY,
+  //         ]),
+  //       }
+  //     : {};
 
-    const orders = await this.repository.find({
-      where: whereClause,
-      order: {
-        createdAt: 'DESC',
-      },
-    });
-    return orders.map(OrderMapper.toEntity);
-  }
+  //   const orders = await this.repository.find({
+  //     where: whereClause,
+  //     order: {
+  //       createdAt: 'DESC',
+  //     },
+  //   });
+  //   return orders.map(OrderMapper.toEntity);
+  // }
 
   async findById(id: number): Promise<OrderEntity> {
     const order = await this.repository.findOne({ where: { id } });

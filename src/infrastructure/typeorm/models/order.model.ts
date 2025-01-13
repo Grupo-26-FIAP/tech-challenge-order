@@ -1,16 +1,11 @@
 import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
-import { PaymentStatusType } from '@Shared/enums/payment-status-type.enum';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ProductOrderModel } from './product-order.model';
-import { UserModel } from './user.model';
 @Entity({
   name: 'order',
   comment: 'Entidade que representa um pedido feito por um usuário.',
@@ -40,17 +35,6 @@ export class OrderModel {
   })
   preparationTime?: number;
 
-  @ManyToOne(() => UserModel, (user) => user.orders)
-  user: UserModel;
-
-  @Column({
-    type: 'enum',
-    enum: PaymentStatusType,
-    default: PaymentStatusType.PENDING,
-    comment: 'Status do pagamento do pedido',
-  })
-  paymentStatus: PaymentStatusType;
-
   @Column({
     type: 'enum',
     enum: OrderStatusType,
@@ -74,9 +58,4 @@ export class OrderModel {
     comment: 'Data da última atualização do pedido',
   })
   updatedAt?: Date;
-
-  @OneToMany(() => ProductOrderModel, (productOrder) => productOrder.order, {
-    eager: true,
-  })
-  productOrders: ProductOrderModel[];
 }

@@ -3,7 +3,7 @@ import {
   IOrderServiceSymbol,
 } from '@Domain/services/order/order.service';
 import { Inject, Injectable } from '@nestjs/common';
-import { UpdateOrderRequestDto } from '../dtos/request/update-order.request.dto';
+import { UpdateOrderRequestDto } from '../../dtos/request/order/update-order.request.dto';
 
 @Injectable()
 export class UpdateOrderUseCase {

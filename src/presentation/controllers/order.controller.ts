@@ -5,26 +5,13 @@ import { CreateOrderUseCase } from '@Application/use-cases/order/create-order.us
 import { FindAllOrdersUseCase } from '@Application/use-cases/order/find-all-orders.use-case';
 import { FindOrderByIdUseCase } from '@Application/use-cases/order/find-order-by-id.use-case';
 import { UpdateOrderUseCase } from '@Application/use-cases/order/update-order.use-case';
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { GetCurrentUser as GetCurrentUserToken } from '@Shared/decorators/get-user-id.decorator';
-import { Roles } from '@Shared/decorators/roles.decorator';
-import { UserRoleEnum } from '@Shared/enums/user-role.enum';
-import { RoleGuard } from '@Shared/guards/role-guard';
-import { ITokenPayload } from '@Shared/interfaces/token-payload.interface';
 
 @ApiTags('Orders')
 @Controller('/api/orders')
@@ -54,8 +41,6 @@ export class OrderController {
   @Get(':id')
   @ApiOperation({ summary: 'Obtém um pedido por ID' })
   @ApiOperation({ summary: 'Cancela um pedido' })
-  @Roles(UserRoleEnum.ADMIN, UserRoleEnum.PREP_LINE)
-  @UseGuards(RoleGuard)
   @ApiBearerAuth()
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   @ApiResponse({ status: 403, description: 'Acesso proibido' })
@@ -73,8 +58,6 @@ export class OrderController {
 
   @Get()
   @ApiOperation({ summary: 'Lista todos os pedidos' })
-  @Roles(UserRoleEnum.ADMIN, UserRoleEnum.PREP_LINE)
-  @UseGuards(RoleGuard)
   @ApiBearerAuth()
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   @ApiResponse({ status: 403, description: 'Acesso proibido' })
@@ -84,16 +67,12 @@ export class OrderController {
     type: [OrderResponseDto],
   })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
-  async findAllOrders(
-    @GetCurrentUserToken() userToken: ITokenPayload,
-  ): Promise<OrderResponseDto[]> {
-    return this.findAllOrdersUseCase.execute(userToken);
+  async findAllOrders(): Promise<OrderResponseDto[]> {
+    return this.findAllOrdersUseCase.execute('');
   }
 
   @Put()
   @ApiOperation({ summary: 'Atualiza o status do pedido' })
-  @Roles(UserRoleEnum.ADMIN, UserRoleEnum.PREP_LINE)
-  @UseGuards(RoleGuard)
   @ApiBearerAuth()
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   @ApiResponse({ status: 403, description: 'Acesso proibido' })
