@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tech-challenge-deployment
+  name: tech-challenge-order-deployment
 spec:
   selector:
     matchLabels:
-      app: tech-challenge-deployment
+      app: tech-challenge-order-deployment
   template:
     metadata:
       labels:
-        app: tech-challenge-deployment
+        app: tech-challenge-order-deployment
     spec:
       containers:
       - name: tech-challenge-api
-        image: diname/tech-challenge-fiap-api:latest
+        image: diname/tech-challenge-order:latest
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
-            name: general-settings
+            name: tech-challenge-order-general-settings
         - secretRef:
-            name: api-secrets
+            name: tech-challenge-order-secrets
         livenessProbe:
           httpGet:
             path: /health
