@@ -1,4 +1,4 @@
-import { ProductOrderEntity } from '@Domain/entities/product-order.entity';
+import { OrderItemEntity } from '@Domain/entities/order-item.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
 import { PaymentStatusType } from '@Shared/enums/payment-status-type.enum';
@@ -24,18 +24,10 @@ export class OrderResponseDto {
   })
   estimatedPreparationTime: number;
 
-  @Column({
-    type: 'integer',
-    nullable: false,
-    comment: 'Tempo de preparação do pedido em minutos.',
+  @ApiProperty({
+    description: 'Usuário que fez o pedido.',
   })
-  preparationTime: number;
-
-  // @ApiProperty({
-  //   description: 'Usuário que fez o pedido.',
-  //   type: [UserEntity],
-  // })
-  // user?: UserEntity;
+  user?: number;
 
   @ApiProperty({
     description: 'Status do pagamento do pedido.',
@@ -64,8 +56,8 @@ export class OrderResponseDto {
 
   @ApiProperty({
     description: 'Lista de produtos e quantidades no pedido.',
-    type: [ProductOrderEntity],
+    type: [OrderItemEntity],
     example: [{ productId: 1, quantity: 2 }],
   })
-  productOrders: ProductOrderEntity[];
+  productOrders: OrderItemEntity[];
 }

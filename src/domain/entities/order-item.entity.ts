@@ -1,7 +1,7 @@
-export class ProductOrderEntity {
+export class OrderItemEntity {
   constructor(
     public quantity: number,
-    public product: any,
+    public productId: number,
     public createdAt: Date,
     public id?: number,
   ) {}

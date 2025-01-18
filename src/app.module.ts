@@ -1,3 +1,5 @@
+import { PostgresConfigService } from '@Infrastructure/typeorm/config/postgres.config.service';
+import { OrderItemModel } from '@Infrastructure/typeorm/models/order-item.model';
 import { OrderModel } from '@Infrastructure/typeorm/models/order.model';
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
@@ -10,12 +12,13 @@ import { CancelOrderUseCase } from './application/use-cases/order/cancel-order.u
 import { CreateOrderUseCase } from './application/use-cases/order/create-order.use-case';
 import { FindAllOrdersUseCase } from './application/use-cases/order/find-all-orders.use-case';
 import { FindOrderByIdUseCase } from './application/use-cases/order/find-order-by-id.use-case';
-import { UpdateOrderUseCase } from './application/use-cases/order/update-order.use-case';
+import { IOrderItemRepositorySymbol } from './domain/repositories/order-item.repository';
 import { IOrderRepositorySymbol } from './domain/repositories/order.repository';
 import { IOrderServiceSymbol } from './domain/services/order/order.service';
 import { OrderServiceImpl } from './domain/services/order/order.service.impl';
+import { OrderItemRepositoryImpl } from './infrastructure/repositories/order-item.repository.impl';
 import { OrderRepositoryImpl } from './infrastructure/repositories/order.repository.impl';
-import { PostgresConfigService } from './infrastructure/typeorm/config/postgres.config.service';
+import { HealthController } from './presentation/controllers/health.controller';
 import { OrderController } from './presentation/controllers/order.controller';
 
 @Module({
@@ -26,12 +29,7 @@ import { OrderController } from './presentation/controllers/order.controller';
       useClass: PostgresConfigService,
       inject: [PostgresConfigService],
     }),
-    TypeOrmModule.forFeature([OrderModel]),
-    // CacheModule.registerAsync({
-    //   imports: [ConfigModule],
-    //   inject: [ConfigService],
-    // }),
-
+    TypeOrmModule.forFeature([OrderModel, OrderItemModel]),
     EnvironmentVariableModule.forRoot({ isGlobal: true }),
     TerminusModule,
   ],
@@ -39,7 +37,6 @@ import { OrderController } from './presentation/controllers/order.controller';
     OrderServiceImpl,
     CreateOrderUseCase,
     CancelOrderUseCase,
-    UpdateOrderUseCase,
     ApproveOrderUseCase,
     FindOrderByIdUseCase,
     FindAllOrdersUseCase,
@@ -51,7 +48,11 @@ import { OrderController } from './presentation/controllers/order.controller';
       provide: IOrderServiceSymbol,
       useClass: OrderServiceImpl,
     },
+    {
+      provide: IOrderItemRepositorySymbol,
+      useClass: OrderItemRepositoryImpl,
+    },
   ],
-  controllers: [OrderController],
+  controllers: [OrderController, HealthController],
 })
 export class AppModule {}

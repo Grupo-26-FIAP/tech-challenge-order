@@ -1,25 +1,25 @@
 import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
+import { PaymentStatusType } from '@Shared/enums/payment-status-type.enum';
 import { TotalPriceValueObject } from '../value-objects/total-price.value-objects';
 
 export class OrderEntity {
   constructor(
     public totalPrice: TotalPriceValueObject,
-    public paymentStatus: any,
+    public paymentStatus: PaymentStatusType,
     public orderStatus: OrderStatusType,
     public createdAt: Date,
     public estimatedPreparationTime: number,
-    public productsOrder: ProductOrderEntity[],
-    public user?: any,
+    public productsOrder: OrderItemEntity[],
+    public userId?: number,
     public id?: number,
     public updatedAt?: Date,
-    public preparationTime?: number,
   ) {}
 }
 
-export class ProductOrderEntity {
+export class OrderItemEntity {
   constructor(
     public quantity: number,
-    public product: any,
+    public productId: number,
     public createdAt: Date,
     public id?: number,
   ) {}

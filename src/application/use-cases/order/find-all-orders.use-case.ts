@@ -13,8 +13,8 @@ export class FindAllOrdersUseCase {
     private readonly service: IOrderService,
   ) {}
 
-  async execute(userToken: any): Promise<OrderResponseDto[]> {
-    const orderEntities = []; //await this.service.findAllOrders(userToken);
+  async execute(): Promise<OrderResponseDto[]> {
+    const orderEntities = await this.service.findAllOrders();
     return orderEntities.map(OrderMapper.toResponseDto);
   }
 }

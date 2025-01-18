@@ -1,11 +1,9 @@
 import { CreateOrderRequestDto } from '@Application/dtos/request/order/create-order.request.dto';
-import { UpdateOrderRequestDto } from '@Application/dtos/request/order/update-order.request.dto';
 import { OrderResponseDto } from '@Application/dtos/response/order/order.response.dto';
 import { CreateOrderUseCase } from '@Application/use-cases/order/create-order.use-case';
 import { FindAllOrdersUseCase } from '@Application/use-cases/order/find-all-orders.use-case';
 import { FindOrderByIdUseCase } from '@Application/use-cases/order/find-order-by-id.use-case';
-import { UpdateOrderUseCase } from '@Application/use-cases/order/update-order.use-case';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -20,7 +18,6 @@ export class OrderController {
     private readonly createOrderUseCase: CreateOrderUseCase,
     private readonly findOrderByIdUseCase: FindOrderByIdUseCase,
     private readonly findAllOrdersUseCase: FindAllOrdersUseCase,
-    private readonly updateOrderUseCase: UpdateOrderUseCase,
   ) {}
 
   @Post()
@@ -68,16 +65,6 @@ export class OrderController {
   })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
   async findAllOrders(): Promise<OrderResponseDto[]> {
-    return this.findAllOrdersUseCase.execute('');
-  }
-
-  @Put()
-  @ApiOperation({ summary: 'Atualiza o status do pedido' })
-  @ApiBearerAuth()
-  @ApiResponse({ status: 401, description: 'Não autorizado' })
-  @ApiResponse({ status: 403, description: 'Acesso proibido' })
-  @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
-  async update(@Body() dto: UpdateOrderRequestDto): Promise<void> {
-    return this.updateOrderUseCase.execute(dto);
+    return this.findAllOrdersUseCase.execute();
   }
 }

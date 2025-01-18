@@ -5,18 +5,17 @@ import {
   IsInt,
   IsOptional,
   IsPositive,
-  IsString,
   ValidateNested,
 } from 'class-validator';
 
 export class CreateOrderRequestDto {
   @ApiProperty({
-    description: 'CPF do usuário que fez o pedido (opcional).',
+    description: 'código do usuário (opcional).',
     example: 1,
   })
-  @IsString({ message: 'O CPF do usuário deve ser uma string.' })
+  @IsInt({ message: 'O userId deve ser um numero.' })
   @IsOptional()
-  readonly cpf?: string;
+  readonly userId?: number;
 
   @ApiProperty({
     description: 'Lista de produtos e quantidades no pedido.',
@@ -28,7 +27,7 @@ export class CreateOrderRequestDto {
     each: true,
     message: 'Cada item na lista de produtos deve ser um objeto válido.',
   })
-  readonly productOrders: ProductOrderDto[];
+  readonly orderItems: ProductOrderDto[];
 }
 
 class ProductOrderDto {

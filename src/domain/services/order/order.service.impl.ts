@@ -1,8 +1,14 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
+import { PaymentStatusType } from '@Shared/enums/payment-status-type.enum';
 import { CreateOrderEntity } from '../../entities/create-order.entity';
+import { OrderItemEntity } from '../../entities/order-item.entity';
 import { OrderEntity } from '../../entities/order.entity';
-import { ProductOrderEntity } from '../../entities/product-order.entity';
+
+import {
+  IOrderItemRepository,
+  IOrderItemRepositorySymbol,
+} from '@Domain/repositories/order-item.repository';
 import {
   IOrderRepository,
   IOrderRepositorySymbol,
@@ -15,73 +21,39 @@ export class OrderServiceImpl implements IOrderService {
   constructor(
     @Inject(IOrderRepositorySymbol)
     private readonly repository: IOrderRepository,
-    // @Inject(IProductOrderRepositorySymbol)
-    // private readonly productOrderRepository: IProductOrderRepository,
-    // @Inject(IProductServiceSymbol)
-    // private readonly productService: IProductService,
-    // @Inject(IUserServiceSymbol)
-    // private readonly userService: IUserService,
+    @Inject(IOrderItemRepositorySymbol)
+    private readonly orderItemRepository: IOrderItemRepository,
   ) {}
 
-  async update(id: number, orderStatus: OrderStatusType): Promise<void> {
-    const order = await this.repository.findById(id);
-    if (!order) throw new NotFoundException('Order not found');
-
-    const previousStatus = order.orderStatus;
-    order.orderStatus = orderStatus;
-
-    if (
-      previousStatus !== orderStatus &&
-      previousStatus === OrderStatusType.IN_PREPARATION &&
-      orderStatus === OrderStatusType.READY
-    ) {
-      const now = new Date();
-      const preparationDuration = now.getTime() - order.updatedAt.getTime();
-      order.preparationTime = Math.ceil(preparationDuration / 1000 / 60);
-    }
-
-    this.repository.save(order);
-  }
-
   async createOrder(order: CreateOrderEntity): Promise<OrderEntity> {
-    //let user: UserEntity;
-
-    if (order.cpf) {
-      const cpf = order.cpf;
-      //user = await this.userService.getOne({ cpf });
-    }
-
-    const productsOrder: ProductOrderEntity[] = [];
-    const totalPrice = 0;
-    const estimatedPreparationTime = 0;
+    const productsOrder: OrderItemEntity[] = [];
+    let totalPrice = 0;
+    let estimatedPreparationTime = 0;
 
     for (const productOrder of order.productOrders) {
-      // const product = await this.productService.findById(
-      //   productOrder.productId,
-      // );
-      // if (product) {
-      //   totalPrice += product.price * productOrder.quantity;
-      //   estimatedPreparationTime +=
-      //     product.preparationTime * productOrder.quantity;
-      //   const productOrderEntity = await this.productOrderRepository.save(
-      //     new ProductOrderEntity(productOrder.quantity, product, new Date()),
-      //   );
-      //   productsOrder.push(productOrderEntity);
-      // } else {
-      //   throw new NotFoundException(
-      //     `Product with ID ${productOrder.productId} not found`,
-      //   );
-      // }
+      totalPrice += productOrder.price * productOrder.quantity;
+      estimatedPreparationTime +=
+        productOrder.preparationTime * productOrder.quantity;
+
+      const productOrderEntity = await this.orderItemRepository.save(
+        new OrderItemEntity(
+          productOrder.quantity,
+          productOrder.productId,
+          new Date(),
+        ),
+      );
+
+      productsOrder.push(productOrderEntity);
     }
 
     const orderEntity = new OrderEntity(
       new TotalPriceValueObject(totalPrice),
-      null,
+      PaymentStatusType.PENDING,
       OrderStatusType.NONE,
       new Date(),
       estimatedPreparationTime,
       productsOrder,
-      null,
+      order.userId,
     );
 
     return this.repository.save(orderEntity);
@@ -90,7 +62,7 @@ export class OrderServiceImpl implements IOrderService {
   async approveOrder(id: number): Promise<void> {
     const order = await this.repository.findById(id);
     if (!order) throw new NotFoundException('Order not found');
-    //order.paymentStatus = PaymentStatusType.APPROVED;
+    order.paymentStatus = PaymentStatusType.APPROVED;
     order.orderStatus = OrderStatusType.RECEIVED;
     this.repository.save(order);
   }
@@ -98,7 +70,7 @@ export class OrderServiceImpl implements IOrderService {
   async cancelOrder(id: number): Promise<void> {
     const order = await this.repository.findById(id);
     if (!order) throw new NotFoundException('Order not found');
-    //order.paymentStatus = PaymentStatusType.CANCELED;
+    order.paymentStatus = PaymentStatusType.CANCELED;
     this.repository.save(order);
   }
 
@@ -106,7 +78,7 @@ export class OrderServiceImpl implements IOrderService {
     return this.repository.findById(id);
   }
 
-  // async findAllOrders(userToken: ITokenPayload): Promise<OrderEntity[]> {
-  //   //return this.repository.findAll(userToken);
-  // }
+  async findAllOrders(): Promise<OrderEntity[]> {
+    return this.repository.findAll();
+  }
 }

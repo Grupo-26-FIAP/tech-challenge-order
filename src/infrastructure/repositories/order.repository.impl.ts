@@ -31,26 +31,14 @@ export class OrderRepositoryImpl implements IOrderRepository {
     await this.repository.softDelete(id);
   }
 
-  // async findAll(userToken: ITokenPayload): Promise<OrderEntity[]> {
-  //   const whereClause = userToken.roles.includes(UserRoleEnum.PREP_LINE)
-  //     ? {
-  //         paymentStatus: PaymentStatusType.APPROVED,
-  //         orderStatus: In([
-  //           OrderStatusType.RECEIVED,
-  //           OrderStatusType.IN_PREPARATION,
-  //           OrderStatusType.READY,
-  //         ]),
-  //       }
-  //     : {};
-
-  //   const orders = await this.repository.find({
-  //     where: whereClause,
-  //     order: {
-  //       createdAt: 'DESC',
-  //     },
-  //   });
-  //   return orders.map(OrderMapper.toEntity);
-  // }
+  async findAll(): Promise<OrderEntity[]> {
+    const orders = await this.repository.find({
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+    return orders.map(OrderMapper.toEntity);
+  }
 
   async findById(id: number): Promise<OrderEntity> {
     const order = await this.repository.findOne({ where: { id } });
