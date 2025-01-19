@@ -21,6 +21,7 @@ import { EnvironmentVariableService } from './environment-variable.service';
         POSTGRES_DB: Joi.string().required(),
         POSTGRES_USER: Joi.string().required(),
         POSTGRES_PASSWORD: Joi.string().required(),
+        URL_API_PRODUCT: Joi.string().required(),
       }),
       validationOptions: {
         presence: 'required',
