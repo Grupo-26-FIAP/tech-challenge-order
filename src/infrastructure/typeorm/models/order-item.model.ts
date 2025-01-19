@@ -8,7 +8,7 @@ import {
 import { OrderModel } from './order.model';
 
 @Entity({
-  name: 'product_order',
+  name: 'order_item',
   comment:
     'Entidade que representa a relação entre um produto e um pedido, incluindo a quantidade do produto no pedido.',
 })
