@@ -86,4 +86,8 @@ export class EnvironmentVariableService {
       UserPoolId: this.configService.get<string>('COGNITO_USER_POOL_ID'),
     };
   }
+
+  get urlApiProduct() {
+    return this.configService.get<string>('URL_API_PRODUCT');
+  }
 }

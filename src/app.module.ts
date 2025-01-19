@@ -1,3 +1,5 @@
+import { IProductService } from '@Infrastructure/services/product.service';
+import { ProductServiceImpl } from '@Infrastructure/services/product.service.impl';
 import { PostgresConfigService } from '@Infrastructure/typeorm/config/postgres.config.service';
 import { OrderItemModel } from '@Infrastructure/typeorm/models/order-item.model';
 import { OrderModel } from '@Infrastructure/typeorm/models/order.model';
@@ -35,6 +37,7 @@ import { OrderController } from './presentation/controllers/order.controller';
   ],
   providers: [
     OrderServiceImpl,
+    ProductServiceImpl,
     CreateOrderUseCase,
     CancelOrderUseCase,
     ApproveOrderUseCase,
@@ -51,6 +54,10 @@ import { OrderController } from './presentation/controllers/order.controller';
     {
       provide: IOrderItemRepositorySymbol,
       useClass: OrderItemRepositoryImpl,
+    },
+    {
+      provide: IProductService,
+      useClass: ProductServiceImpl,
     },
   ],
   controllers: [OrderController, HealthController],

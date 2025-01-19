@@ -20,4 +20,5 @@ export interface EnvironmentVariableInterface {
   CACHE_SERVICE_PORT: number;
   COGNITO_CLIENT_ID: string;
   COGNITO_USER_POOL_ID: string;
+  URL_API_PRODUCT: string;
 }

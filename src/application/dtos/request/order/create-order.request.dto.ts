@@ -30,7 +30,7 @@ export class CreateOrderRequestDto {
   readonly orderItems: ProductOrderDto[];
 }
 
-class ProductOrderDto {
+export class ProductOrderDto {
   @ApiProperty({
     description: 'ID do produto.',
     example: 1,
