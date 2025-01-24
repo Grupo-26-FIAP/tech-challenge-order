@@ -26,24 +26,24 @@ export class OrderServiceImpl implements IOrderService {
   ) {}
 
   async createOrder(order: CreateOrderEntity): Promise<OrderEntity> {
-    const productsOrder: OrderItemEntity[] = [];
+    const orderItems: OrderItemEntity[] = [];
     let totalPrice = 0;
     let estimatedPreparationTime = 0;
 
-    for (const productOrder of order.productOrders) {
-      totalPrice += productOrder.price * productOrder.quantity;
+    for (const orderItem of order.orderItems) {
+      totalPrice += orderItem.price * orderItem.quantity;
       estimatedPreparationTime +=
-        productOrder.preparationTime * productOrder.quantity;
+        orderItem.preparationTime * orderItem.quantity;
 
-      const productOrderEntity = await this.orderItemRepository.save(
+      const orderItemEntity = await this.orderItemRepository.save(
         new OrderItemEntity(
-          productOrder.quantity,
-          productOrder.productId,
+          orderItem.quantity,
+          orderItem.productId,
           new Date(),
         ),
       );
 
-      productsOrder.push(productOrderEntity);
+      orderItems.push(orderItemEntity);
     }
 
     const orderEntity = new OrderEntity(
@@ -52,7 +52,7 @@ export class OrderServiceImpl implements IOrderService {
       OrderStatusType.NONE,
       new Date(),
       estimatedPreparationTime,
-      productsOrder,
+      orderItems,
       order.userId,
     );
 
