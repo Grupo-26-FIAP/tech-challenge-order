@@ -1,3 +1,5 @@
+import { ConsumerModule } from '@Infrastructure/queue/consumer/consumer.module';
+import { ProducerModule } from '@Infrastructure/queue/producer/producer.module';
 import { IProductService } from '@Infrastructure/services/product.service';
 import { ProductServiceImpl } from '@Infrastructure/services/product.service.impl';
 import { PostgresConfigService } from '@Infrastructure/typeorm/config/postgres.config.service';
@@ -34,6 +36,8 @@ import { OrderController } from './presentation/controllers/order.controller';
     TypeOrmModule.forFeature([OrderModel, OrderItemModel]),
     EnvironmentVariableModule.forRoot({ isGlobal: true }),
     TerminusModule,
+    ProducerModule,
+    ConsumerModule,
   ],
   providers: [
     OrderServiceImpl,

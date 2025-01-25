@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { SqsModule } from '@ssut/nestjs-sqs';
 import * as AWS from 'aws-sdk';
+import { config } from 'dotenv';
 import { MessageProducer } from './producer.service';
+
+config();
 
 AWS.config.update({
   region: process.env.AWS_REGION,
@@ -15,8 +18,8 @@ AWS.config.update({
       consumers: [],
       producers: [
         {
-          name: process.env.QUEUE_NAME,
-          queueUrl: process.env.QUEUE_URL,
+          name: process.env.ORDER_QUEUE_NAME,
+          queueUrl: process.env.ORDER_QUEUE_URL,
           region: process.env.AWS_REGION,
         },
       ],

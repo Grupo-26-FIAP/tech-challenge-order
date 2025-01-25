@@ -11,16 +11,13 @@ AWS.config.update({
   secretAccessKey: process.env.SECRET_ACCESS_KEY,
 });
 
-console.log({ queueUrl: process.env.QUEUE_URL });
-console.log({ queueUrl: process.env.AWS_REGION });
-
 @Module({
   imports: [
     SqsModule.register({
       consumers: [
         {
-          name: 'order-created-queue',
-          queueUrl: process.env.QUEUE_URL,
+          name: 'payment_status_updated_queue',
+          queueUrl: process.env.PAYMENT_QUEUE_URL,
           region: process.env.AWS_REGION,
         },
       ],
