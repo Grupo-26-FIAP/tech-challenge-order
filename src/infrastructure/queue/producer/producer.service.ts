@@ -13,6 +13,7 @@ export class MessageProducer {
     try {
       await this.sqsService.send(queue, {
         id: uuidv4(),
+        groupId: uuidv4(),
         body: message,
         delaySeconds: 0,
       });

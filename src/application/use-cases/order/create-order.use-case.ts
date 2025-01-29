@@ -27,9 +27,12 @@ export class CreateOrderUseCase {
     );
 
     const orderEntity = await this.service.createOrder(orderEntityRequest);
-    const orderDto = OrderMapper.toResponseDto(orderEntity);
+    const orderDto = OrderMapper.toResponseDto(orderEntity, productsDto);
 
-    await this.messageProducer.sendMessage('order-created-queue', orderDto);
+    await this.messageProducer.sendMessage(
+      'order-created-queue.fifo',
+      orderDto,
+    );
 
     return orderDto;
   }

@@ -15,6 +15,6 @@ export class FindAllOrdersUseCase {
 
   async execute(): Promise<OrderResponseDto[]> {
     const orderEntities = await this.service.findAllOrders();
-    return orderEntities.map(OrderMapper.toResponseDto);
+    return orderEntities.map((order) => OrderMapper.toResponseDto(order));
   }
 }

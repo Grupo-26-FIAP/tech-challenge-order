@@ -4,7 +4,6 @@ import {
   CreateProductOrderEntity as CreateOrderItemEntity,
 } from '@Domain/entities/create-order.entity';
 import { OrderEntity } from '@Domain/entities/order.entity';
-import { OrderItemMapper } from '@Infrastructure/typeorm/mappers/order-item.mapper';
 import { CreateOrderRequestDto } from '../dtos/request/order/create-order.request.dto';
 import { OrderResponseDto } from '../dtos/response/order/order.response.dto';
 
@@ -31,11 +30,10 @@ export class OrderMapper {
     return new CreateOrderEntity(orderItems, dto.userId);
   }
 
-  static toResponseDto(orderEntity: OrderEntity): OrderResponseDto {
-    const productOrders = orderEntity.productsOrder?.map(
-      OrderItemMapper.toEntity,
-    );
-
+  static toResponseDto(
+    orderEntity: OrderEntity,
+    productsDto?: ProductResponseDto[],
+  ): OrderResponseDto {
     return {
       id: orderEntity.id,
       totalPrice: orderEntity.totalPrice.getValue(),
@@ -45,7 +43,11 @@ export class OrderMapper {
       orderStatus: orderEntity.orderStatus,
       createdAt: orderEntity.createdAt,
       updatedAt: orderEntity.updatedAt,
-      productOrders: productOrders,
+      productOrders: productsDto?.filter((product) =>
+        orderEntity.productsOrder?.some(
+          (productOrder) => productOrder.productId === product.id,
+        ),
+      ),
     };
   }
 }

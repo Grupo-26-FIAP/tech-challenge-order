@@ -22,6 +22,11 @@ AWS.config.update({
           queueUrl: process.env.ORDER_QUEUE_URL,
           region: process.env.AWS_REGION,
         },
+        {
+          name: process.env.ORDER_READY_FOR_PRODUCTION_QUEUE_NAME,
+          queueUrl: process.env.ORDER_READY_FOR_PRODUCTION_QUEUE_URL,
+          region: process.env.AWS_REGION,
+        },
       ],
     }),
   ],
