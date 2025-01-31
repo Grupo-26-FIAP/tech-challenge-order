@@ -22,6 +22,7 @@ const config: Config.InitialOptions = {
     '^@Domain/(.*)$': '<rootDir>/src/domain/$1',
     '^@Infrastructure/(.*)$': '<rootDir>/src/infrastructure/$1',
     '^@Application/(.*)$': '<rootDir>/src/application/$1',
+    '^@Shared/(.*)$': '<rootDir>/src/shared/$1',
   },
   coveragePathIgnorePatterns: [
     '/node_modules/',
@@ -29,6 +30,7 @@ const config: Config.InitialOptions = {
     '/features/',
     '/dist/',
     '/src/infrastructure/typeorm/',
+    '/src/infrastructure/queue/',
     '/src/shared/',
     '/src/application/mappers/',
     '/src/application/dtos/',
@@ -40,6 +42,7 @@ const config: Config.InitialOptions = {
     '.eslintrc.js',
     'jest.config.ts',
   ],
+  coverageReporters: ['html', 'text'],
 };
 
 export default config;
