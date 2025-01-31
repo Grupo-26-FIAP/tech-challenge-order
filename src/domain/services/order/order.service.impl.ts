@@ -95,7 +95,13 @@ export class OrderServiceImpl implements IOrderService {
   }
 
   async findOrderById(id: number): Promise<OrderEntity> {
-    return this.repository.findById(id);
+    const order = await this.repository.findById(id);
+
+    if (!order) {
+      throw new NotFoundException(`Order with id ${id} not found`);
+    }
+
+    return order;
   }
 
   async findAllOrders(): Promise<OrderEntity[]> {
