@@ -44,6 +44,7 @@ export class OrderItemRepositoryImpl implements IOrderItemRepository {
     const orderItem = await this.orderItemRepository.findOne({
       where: { id },
     });
+    if (!orderItem) return null;
     return OrderItemMapper.toEntity(orderItem);
   }
 }
