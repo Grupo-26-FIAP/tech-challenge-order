@@ -8,6 +8,7 @@ export class OrderEntity {
     public paymentStatus: PaymentStatusType,
     public orderStatus: OrderStatusType,
     public createdAt: Date,
+    public preparationTime: number,
     public estimatedPreparationTime: number,
     public productsOrder: OrderItemEntity[],
     public userId?: number,

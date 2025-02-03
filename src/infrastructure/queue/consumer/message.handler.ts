@@ -21,6 +21,8 @@ export class MessageHandler {
   async handleMessage(message: AWS.SQS.Message) {
     const data = JSON.parse(message.Body);
 
+    console.log('Message received', data);
+
     this.approveOrderUseCase.execute(Number(data.orderId));
 
     await this.sqs
@@ -28,7 +30,10 @@ export class MessageHandler {
         QueueUrl: process.env.PAYMENT_QUEUE_URL,
         ReceiptHandle: message.ReceiptHandle,
       })
-      .promise();
+      .promise()
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   @SqsMessageHandler(process.env.PRODUCTION_QUEUE_NAME, false)

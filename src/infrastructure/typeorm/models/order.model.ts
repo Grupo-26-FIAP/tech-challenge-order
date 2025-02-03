@@ -65,8 +65,9 @@ export class OrderModel {
   createdAt: Date;
 
   @UpdateDateColumn({
+    default: () => 'now()',
     name: 'updated_at',
-    type: 'timestamp',
+    type: 'timestamp with time zone',
     nullable: true,
     comment: 'Data da última atualização do pedido',
   })

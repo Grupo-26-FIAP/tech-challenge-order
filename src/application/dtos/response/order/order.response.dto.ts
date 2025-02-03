@@ -24,6 +24,13 @@ export class OrderResponseDto {
   })
   estimatedPreparationTime: number;
 
+  @Column({
+    type: 'integer',
+    nullable: false,
+    comment: 'Tempo de preparo do pedido em minutos',
+  })
+  preparationTime: number;
+
   @ApiProperty({
     description: 'Usuário que fez o pedido.',
   })
