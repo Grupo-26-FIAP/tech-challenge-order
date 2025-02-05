@@ -9,5 +9,19 @@ data:
   APP_VERSION: "1.0.0"
   APP_DOCUMENTATION_ENDPOINT: "docs"
   POSTGRES_PORT: "5432"
-  POSTGRES_HOST: "${{ secrets.POSTGRES_HOST }}"
+  POSTGRES_HOST: "tech-challenge-order.citjrfodlns9.us-east-1.rds.amazonaws.com"
   USER_TOKEN_EXPIRES_IN: "900"
+  ORDER_QUEUE_NAME: order-created-queue.fifo
+  ORDER_QUEUE_URL: https://sqs.us-east-1.amazonaws.com/528038094654/order-created-queue.fifo
+
+  PAYMENT_QUEUE_NAME: payment-status-updated-queue.fifo
+  PAYMENT_QUEUE_URL: https://sqs.us-east-1.amazonaws.com/528038094654/payment-status-updated-queue.fifo
+
+  PRODUCTION_QUEUE_NAME: production-status-updated-queue.fifo
+  PRODUCTION_QUEUE_URL: https://sqs.us-east-1.amazonaws.com/528038094654/production-status-updated-queue.fifo
+
+  ORDER_READY_FOR_PRODUCTION_QUEUE_NAME: order-ready-for-production-queue.fifo
+  ORDER_READY_FOR_PRODUCTION_QUEUE_URL: https://sqs.us-east-1.amazonaws.com/528038094654/order-ready-for-production-queue.fifo
+
+  URL_API_PRODUCT: http://localhost:3002/
+  
