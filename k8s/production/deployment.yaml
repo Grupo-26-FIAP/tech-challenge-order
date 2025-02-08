@@ -14,7 +14,6 @@ spec:
       containers:
       - name: tech-challenge-api
         image: diname/tech-challenge-order:latest
-        imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
             name: tech-challenge-order-general-settings

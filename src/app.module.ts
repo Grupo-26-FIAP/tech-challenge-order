@@ -6,11 +6,12 @@ import { PostgresConfigService } from '@Infrastructure/typeorm/config/postgres.c
 import { OrderItemModel } from '@Infrastructure/typeorm/models/order-item.model';
 import { OrderModel } from '@Infrastructure/typeorm/models/order.model';
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EnvironmentVariableModule } from '@Shared/config/environment-variable/environment-variable.module';
+import { ResponseMiddleware } from '@Shared/middlewares/response.middleware';
 import { ApproveOrderUseCase } from './application/use-cases/order/approve-order.use-case';
 import { CancelOrderUseCase } from './application/use-cases/order/cancel-order.use-case';
 import { CreateOrderUseCase } from './application/use-cases/order/create-order.use-case';
@@ -66,4 +67,8 @@ import { OrderController } from './presentation/controllers/order.controller';
   ],
   controllers: [OrderController, HealthController],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ResponseMiddleware).forRoutes('*'); // Apply the middleware to all routes
+  }
+}

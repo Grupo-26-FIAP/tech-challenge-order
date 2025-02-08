@@ -13,7 +13,7 @@ import {
 } from '@nestjs/swagger';
 
 @ApiTags('Orders')
-@Controller('/api/orders')
+@Controller('/orders')
 export class OrderController {
   constructor(
     private readonly createOrderUseCase: CreateOrderUseCase,
