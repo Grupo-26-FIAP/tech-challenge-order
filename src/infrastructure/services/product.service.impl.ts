@@ -15,7 +15,7 @@ export class ProductServiceImpl implements IProductService {
   async findProducts(): Promise<ProductResponseDto[]> {
     const { data } = await lastValueFrom(
       this.httpService.get<ProductResponseDto[]>(
-        'http://localhost:3002/api/products',
+        `${this.environmentVariableService.urlApiProduct}/products`,
       ),
     );
     return data;
