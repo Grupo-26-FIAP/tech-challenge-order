@@ -14,7 +14,6 @@ spec:
       containers:
       - name: tech-challenge-api
         image: diname/tech-challenge-order:latest
-        imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
             name: tech-challenge-order-general-settings
@@ -23,7 +22,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 3000
+            port: 3001
           initialDelaySeconds: 180
           periodSeconds: 60
           timeoutSeconds: 5
@@ -36,4 +35,4 @@ spec:
             memory: 400Mi
             cpu: 500m # 1/2 núcleo
         ports:
-        - containerPort: 3000
+        - containerPort: 3001

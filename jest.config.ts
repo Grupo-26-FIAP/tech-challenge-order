@@ -3,10 +3,10 @@ import type { Config } from '@jest/types';
 const config: Config.InitialOptions = {
   coverageThreshold: {
     global: {
-      statements: 25,
-      branches: 20,
-      functions: 25,
-      lines: 25,
+      statements: 80,
+      branches: 80,
+      functions: 80,
+      lines: 80,
     },
   },
   moduleFileExtensions: ['js', 'json', 'ts'],
@@ -43,7 +43,7 @@ const config: Config.InitialOptions = {
     '.eslintrc.js',
     'jest.config.ts',
   ],
-  coverageReporters: ['html', 'text'],
+  coverageReporters: ['html', 'text', 'lcov'],
 };
 
 export default config;

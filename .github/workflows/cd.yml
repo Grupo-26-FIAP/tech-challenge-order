@@ -4,6 +4,10 @@ on:
   pull_request:
     types:
       - closed
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 env:
   REGION_DEFAULT: us-east-1
@@ -11,7 +15,7 @@ env:
 
 jobs:
   Deploy:
-    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' }}
+    #if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' }}
     name: 'Deploy Application'
     runs-on: ubuntu-latest
 
@@ -42,13 +46,34 @@ jobs:
       - name: AWS Configure
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ID }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.SESSION_TOKEN }}
           aws-region: ${{ env.REGION_DEFAULT }}
 
       - name: Update Kube Config
         run: aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.REGION_DEFAULT }}
+
+      - name: Criar Secret no Kubernetes para Order
+        run: |
+          kubectl create secret generic tech-challenge-order-secrets \
+            --from-literal=POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
+            --from-literal=POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+            --from-literal=POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+            --from-literal=POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} \
+            --from-literal=POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} \
+            --from-literal=ORDER_QUEUE_NAME=${{ secrets.ORDER_QUEUE_NAME }} \
+            --from-literal=ORDER_QUEUE_URL=${{ secrets.ORDER_QUEUE_URL }} \
+            --from-literal=PAYMENT_QUEUE_NAME=${{ secrets.PAYMENT_QUEUE_NAME }} \
+            --from-literal=PAYMENT_QUEUE_URL=${{ secrets.PAYMENT_QUEUE_URL }} \
+            --from-literal=PRODUCTION_QUEUE_NAME=${{ secrets.PRODUCTION_QUEUE_NAME }} \
+            --from-literal=PRODUCTION_QUEUE_URL=${{ secrets.PRODUCTION_QUEUE_URL }} \
+            --from-literal=ORDER_READY_FOR_PRODUCTION_QUEUE_NAME=${{ secrets.ORDER_READY_FOR_PRODUCTION_QUEUE_NAME }} \
+            --from-literal=ORDER_READY_FOR_PRODUCTION_QUEUE_URL=${{ secrets.ORDER_READY_FOR_PRODUCTION_QUEUE_URL }} \
+            --from-literal=AWS_REGION=${{ secrets.AWS_REGION }} \
+            --from-literal=ACCESS_KEY_ID=${{ secrets.ACCESS_KEY_ID }} \
+            --from-literal=SECRET_ACCESS_KEY=${{ secrets.SECRET_ACCESS_KEY }} \
+            --from-literal=SESSION_TOKEN=${{ secrets.SESSION_TOKEN }}
 
       - name: Kube Apply
         run: |

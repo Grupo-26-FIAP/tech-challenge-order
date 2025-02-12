@@ -51,6 +51,7 @@ export class OrderServiceImpl implements IOrderService {
       PaymentStatusType.PENDING,
       OrderStatusType.NONE,
       new Date(),
+      0,
       estimatedPreparationTime,
       orderItems,
       order.userId,
@@ -71,9 +72,10 @@ export class OrderServiceImpl implements IOrderService {
       previousStatus === OrderStatusType.IN_PREPARATION &&
       orderStatus === OrderStatusType.READY
     ) {
-      // const now = new Date();
-      // const preparationDuration = now.getTime() - order.updatedAt.getTime();
-      // order.preparationTime = Math.ceil(preparationDuration / 1000 / 60);
+      const now = new Date();
+      const preparationDuration = now.getTime() - order.updatedAt.getTime();
+
+      order.preparationTime = Math.ceil(preparationDuration / 1000 / 60);
     }
 
     this.repository.save(order);

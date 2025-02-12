@@ -41,8 +41,10 @@ export class OrderRepositoryImpl implements IOrderRepository {
   }
 
   async findById(id: number): Promise<OrderEntity> {
-    const order = await this.repository.findOne({ where: { id } });
-
+    const order = await this.repository.findOne({
+      where: { id },
+      relations: ['OrderItems'],
+    });
     if (!order) return null;
     return OrderMapper.toEntity(order);
   }

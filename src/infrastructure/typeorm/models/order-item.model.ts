@@ -16,6 +16,11 @@ export class OrderItemModel {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({
+    type: 'int',
+    nullable: false,
+    comment: 'Id do produto',
+  })
   productId: number;
 
   @Column({
