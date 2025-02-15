@@ -11,6 +11,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { GetCurrentUser as GetCurrentUserToken } from '@Shared/decorators/get-user-id.decorator';
 
 @ApiTags('Orders')
 @Controller('/orders')
@@ -32,10 +33,12 @@ export class OrderController {
   })
   @ApiResponse({ status: 400, description: 'Dados inválidos' })
   @ApiResponse({ status: 500, description: 'Erro interno do servidor' })
+  @ApiBearerAuth()
   async createOrder(
     @Body() dto: CreateOrderRequestDto,
+    @GetCurrentUserToken() userToken: string,
   ): Promise<OrderResponseDto> {
-    return this.createOrderUseCase.execute(dto);
+    return this.createOrderUseCase.execute(dto, userToken);
   }
 
   @Get(':id')

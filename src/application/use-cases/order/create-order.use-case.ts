@@ -19,12 +19,19 @@ export class CreateOrderUseCase {
     private readonly messageProducer: MessageProducer,
   ) {}
 
-  async execute(dto: CreateOrderRequestDto): Promise<OrderResponseDto> {
+  async execute(
+    dto: CreateOrderRequestDto,
+    userId: string,
+  ): Promise<OrderResponseDto> {
     const productsDto = await this.productService.findProducts();
     const orderEntityRequest = OrderMapper.toCreateOrderEntity(
       dto,
       productsDto,
     );
+
+    if (userId) {
+      orderEntityRequest.userId = userId;
+    }
 
     const orderEntity = await this.service.createOrder(orderEntityRequest);
     const orderDto = OrderMapper.toResponseDto(orderEntity, productsDto);

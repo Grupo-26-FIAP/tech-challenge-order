@@ -5,17 +5,14 @@ import {
   IsInt,
   IsOptional,
   IsPositive,
+  MaxLength,
   ValidateNested,
 } from 'class-validator';
 
 export class CreateOrderRequestDto {
-  @ApiProperty({
-    description: 'código do usuário (opcional).',
-    example: 1,
-  })
-  @IsInt({ message: 'O userId deve ser um numero.' })
   @IsOptional()
-  readonly userId?: number;
+  @MaxLength(11)
+  readonly userId?: string;
 
   @ApiProperty({
     description: 'Lista de produtos e quantidades no pedido.',

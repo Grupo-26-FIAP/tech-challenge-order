@@ -1,7 +1,7 @@
 export class CreateOrderEntity {
   constructor(
     public orderItems: CreateProductOrderEntity[],
-    public userId?: number,
+    public userId?: string,
   ) {}
 }
 

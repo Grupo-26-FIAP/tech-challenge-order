@@ -38,7 +38,13 @@ export class OrderModel {
   })
   preparationTime?: number;
 
-  userId: number;
+  @Column({
+    type: 'varchar',
+    length: 11,
+    nullable: true,
+    comment: 'Usuário identificado',
+  })
+  userId: string;
 
   @Column({
     type: 'enum',

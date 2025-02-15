@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 
 export class ProductResponseDto {
   @ApiProperty({
     description: 'ID único do produto no banco de dados.',
     example: 1,
   })
+  @Expose()
   public id: number;
 
   @ApiProperty({

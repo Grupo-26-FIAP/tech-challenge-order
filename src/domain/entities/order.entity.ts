@@ -11,7 +11,7 @@ export class OrderEntity {
     public preparationTime: number,
     public estimatedPreparationTime: number,
     public productsOrder: OrderItemEntity[],
-    public userId?: number,
+    public userId?: string,
     public id?: number,
     public updatedAt?: Date,
   ) {}
