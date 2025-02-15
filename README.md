@@ -1,18 +1,8 @@
-# Tech Challenge (Software Architecture)
+# Tech Challenge Order
 
 Tech Challenge é o projeto do MBA em Software Architecture que engloba os conhecimentos obtidos nas disciplinas.
 
-## O Problema
-
-Há uma lanchonete de bairro que está expandindo devido seu grande sucesso. Porém, com a expansão e sem um sistema de controle de pedidos, o atendimento aos clientes pode ser caótico e confuso. Por exemplo, imagine que um cliente faça um pedido complexo, como um hambúrguer personalizado com ingredientes específicos, acompanhado de batatas fritas e uma bebida. O atendente pode anotar o pedido em um papel e entregá-lo à cozinha, mas não há garantia de que o pedido será preparado corretamente.
-
-Sem um sistema de controle de pedidos, pode haver confusão entre os atendentes e a cozinha, resultando em atrasos na preparação e entrega dos pedidos. Os pedidos podem ser perdidos, mal interpretados ou esquecidos, levando à insatisfação dos clientes e a perda de negócios.
-
 Em resumo, um sistema de controle de pedidos é essencial para garantir que a lanchonete possa atender os clientes de maneira eficiente, gerenciando seus pedidos e estoques de forma adequada. Sem ele, expandir a lanchonete pode acabar não dando certo, resultando em clientes insatisfeitos e impactando os negócios de forma negativa.
-
-### Fase 1
-
-Para solucionar o problema, a lanchonete irá investir em um sistema de autoatendimento de fast food, que é composto por uma série de dispositivos e interfaces que permitem aos clientes selecionar e fazer pedidos sem precisar interagir com um atendente, com as seguintes funcionalidades:
 
 **Pedido**: Os clientes são apresentados a uma interface de seleção na qual podem optar por se identificarem via CPF, se cadastrarem com nome, e-mail ou não se identificar, podendo montar o combo na seguinte sequência, sendo todas elas opcionais:
 
@@ -22,37 +12,6 @@ Para solucionar o problema, a lanchonete irá investir em um sistema de autoaten
 
 Em cada etapa é exibido o nome, descrição e preço de cada produto..
 
-**Pagamento**: O sistema deverá possuir uma opção de pagamento integrada para MVP. A forma de pagamento oferecida será via QRCode do Mercado Pago.
-
-Acompanhamento: Uma vez que o pedido é confirmado e pago, ele é enviado para a cozinha para ser preparado. Simultaneamente deve aparecer em um monitor para o cliente acompanhar o progresso do seu pedido com as seguintes etapas:
-
-- Recebido
-- Em preparação
-- Pronto
-- Finalizado
-
-**Entrega**: Quando o pedido estiver pronto, o sistema deverá notificar o cliente que ele está pronto para retirada. Ao ser retirado, o pedido deve ser atualizado para o status finalizado.
-
-Além das etapas do cliente, o estabelecimento precisa de um acesso administrativo:
-
-**Gerenciar clientes**: Com a identificação dos clientes o estabelecimento pode trabalhar em campanhas promocionais.
-
-**Gerenciar produtos e categorias**: Os produtos dispostos para escolha do cliente serão gerenciados pelo estabelecimento, definindo nome, categoria, preço, descrição e imagens. Para esse sistema teremos categorias fixas:
-
-- Lanche
-- Acompanhamento
-- Bebida
-- Sobremesa
-
-**Acompanhamento de pedidos**: Deve ser possível acompanhar os pedidos em andamento e tempo de espera de cada pedido.
-
-As informações dispostas no sistema de pedidos precisarão ser gerenciadas pelo estabelecimento através de um painel administrativo.
-
-## Event Storm
-
-O **Event Storm** é uma técnica valiosa utilizada para explorar e mapear o domínio do problema antes de começar o desenvolvimento. Ele ajuda a entender melhor os processos e eventos que ocorrem no sistema, facilitando a modelagem e a estruturação da arquitetura do software.
-
-Para obter uma visão detalhada do Event Storm aplicado a este projeto, incluindo o diagrama visual que foi utilizado para guiar o desenvolvimento, você pode acessar o link abaixo:
 
 <a href="https://miro.com/app/board/uXjVKztqeIc=/?share_link_id=808693294741">
     <img src="https://img.shields.io/badge/Miro-05192D?style=for-the-badge&logo=miro&logoColor=FFD02F"/>
@@ -175,168 +134,31 @@ graph TD
 
 Este documento descreve a estrutura do banco de dados utilizado no projeto. Inclui a descrição de cada tabela, suas colunas e os relacionamentos entre elas.
 
-### Tabelas de Usuário
-
-#### `user`
-
-| Coluna       | Tipo       | Detalhes                        |
-| ------------ | ---------- | ------------------------------- |
-| `id`         | `int`      | Chave primária, auto-incremento |
-| `name`       | `string`   | Nome do usuário                 |
-| `document`   | `string`   | Documento de identidade         |
-| `password`   | `string`   | Senha do usuário                |
-| `created_at` | `datetime` | Data de criação                 |
-| `updated_at` | `datetime` | Data de atualização             |
-| `deleted_at` | `datetime` | Data de exclusão (soft delete)  |
-
-#### `role`
-
-| Coluna       | Tipo       | Detalhes                        |
-| ------------ | ---------- | ------------------------------- |
-| `id`         | `int`      | Chave primária, auto-incremento |
-| `name`       | `string`   | Nome da função                  |
-| `created_at` | `datetime` | Data de criação                 |
-| `updated_at` | `datetime` | Data de atualização             |
-| `deleted_at` | `datetime` | Data de exclusão (soft delete)  |
-
-#### `user_role`
-
-| Coluna       | Tipo       | Detalhes                       |
-| ------------ | ---------- | ------------------------------ |
-| `user_id`    | `int`      | Chave estrangeira para `user`  |
-| `role_id`    | `int`      | Chave estrangeira para `role`  |
-| `created_at` | `datetime` | Data de criação                |
-| `updated_at` | `datetime` | Data de atualização            |
-| `deleted_at` | `datetime` | Data de exclusão (soft delete) |
-
-### Tabelas de Pedido
-
-#### `order`
-
-| Coluna           | Tipo       | Detalhes                                                                     |
-| ---------------- | ---------- | ---------------------------------------------------------------------------- |
-| `id`             | `int`      | Chave primária, auto-incremento                                              |
-| `total_price`    | `double`   | Preço total do pedido                                                        |
-| `user_id`        | `int`      | Chave estrangeira para `user`                                                |
-| `payment_status` | `enum`     | Status de pagamento (`pending`, `approved`, `canceled`)                      |
-| `order_status`   | `enum`     | Status do pedido (`none`, `received`, `in_preparation`, `ready`, `finished`) |
-| `created_at`     | `datetime` | Data de criação                                                              |
-| `updated_at`     | `datetime` | Data de atualização                                                          |
-
-#### `product_order`
-
-| Coluna       | Tipo       | Detalhes                         |
-| ------------ | ---------- | -------------------------------- |
-| `id`         | `int`      | Chave primária, auto-incremento  |
-| `product_id` | `int`      | Chave estrangeira para `product` |
-| `quantity`   | `int`      | Quantidade do produto            |
-| `order_id`   | `int`      | Chave estrangeira para `order`   |
-| `created_at` | `datetime` | Data de criação                  |
-
-### Tabelas de Produto
-
-#### `product`
-
-| Coluna        | Tipo       | Detalhes                          |
-| ------------- | ---------- | --------------------------------- |
-| `id`          | `int`      | Chave primária, auto-incremento   |
-| `name`        | `string`   | Nome do produto                   |
-| `description` | `string`   | Descrição do produto              |
-| `price`       | `numeric`  | Preço do produto                  |
-| `figure_url`  | `string`   | URL da imagem do produto          |
-| `enabled`     | `bool`     | Se o produto está ativado         |
-| `category_id` | `int`      | Chave estrangeira para `category` |
-| `created_at`  | `datetime` | Data de criação                   |
-| `updated_at`  | `datetime` | Data de atualização               |
-| `deleted_at`  | `datetime` | Data de exclusão (soft delete)    |
-
-#### `category`
-
-| Coluna       | Tipo       | Detalhes                        |
-| ------------ | ---------- | ------------------------------- |
-| `id`         | `int`      | Chave primária, auto-incremento |
-| `name`       | `string`   | Nome da categoria               |
-| `created_at` | `datetime` | Data de criação                 |
-| `updated_at` | `datetime` | Data de atualização             |
-| `deleted_at` | `datetime` | Data de exclusão (soft delete)  |
-
 ### Diagrama do Banco de Dados
 
 O diagrama abaixo ilustra a estrutura das tabelas e suas relações:
 
 ```mermaid
 erDiagram
-    user {
-        int id PK
-        string name
-        string document
-        string password
-        datetime created_at
-        datetime updated_at
-        datetime deleted_at
-    }
-
-    role {
-        int id PK
-        string name
-        datetime created_at
-        datetime updated_at
-        datetime deleted_at
-    }
-
-    user_role {
-        int user_id FK
-        int role_id FK
-        datetime created_at
-        datetime updated_at
-        datetime deleted_at
-    }
-
     order {
-        int id PK
-        double total_price
-        int user_id FK
-        payment_status payment_status_type
-        order_status order_status_type
+        int id
+        float totalPrice
+        int estimatedPreparationTime
+        int preparationTime
+        string paymentStatus
+        string orderStatus
         datetime created_at
         datetime updated_at
+        int userId
     }
-
-    product_order {
-        int id PK
-        int product_id FK
-        int order_id FK
+    orderItem {
+        int id
+        int orderId
+        int productId
         int quantity
         datetime created_at
     }
-
-    product {
-        int id PK
-        string name
-        string description
-        numeric price
-        string figure_url
-        bool enabled
-        int category_id FK
-        datetime created_at
-        datetime updated_at
-        datetime deleted_at
-    }
-
-    category {
-        int id PK
-        string name
-        datetime created_at
-        datetime updated_at
-        datetime deleted_at
-    }
-
-    user_role ||--o{ user : "belongs to"
-    user_role ||--o{ role : "has"
-    order ||--o{ user : "placed by"
-    product_order ||--o{ product : "includes"
-    product_order ||--o{ order : "in"
-    product ||--o{ category : "belongs to"
+    order ||--o{ orderItem : contains
 ```
 
 ### Detalhes Adicionais

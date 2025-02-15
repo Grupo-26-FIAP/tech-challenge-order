@@ -45,6 +45,7 @@ export class OrderRepositoryImpl implements IOrderRepository {
       where: { id },
       relations: ['OrderItems'],
     });
+    if (!order) return null;
     return OrderMapper.toEntity(order);
   }
 }
