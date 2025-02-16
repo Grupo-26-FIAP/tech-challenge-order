@@ -8,7 +8,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('/order/api/v1/');
+  app.setGlobalPrefix('/order/api/v1/', { exclude: ['health'] });
 
   initializeCors(app);
   initializeSwagger(app);
