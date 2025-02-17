@@ -58,18 +58,57 @@ describe('CreateOrderUseCase', () => {
   it('should create an order successfully', async () => {
     const dto: CreateOrderRequestDto = {
       orderItems: [
-        /* mock order items */
+        {
+          productId: 1,
+          quantity: 2,
+        },
+        {
+          productId: 2,
+          quantity: 1,
+        },
       ],
       /* other mock data */
     };
     const productsDto = [
-      /* mock products */
+      {
+        id: 1,
+        name: 'Product 1',
+        price: 50,
+        stock: 10,
+        category: 'Category 1',
+        preparationTime: 10,
+        description: 'Description 1',
+        enabled: true,
+        figureUrl: 'http://example.com/product1.jpg',
+      },
+      {
+        id: 2,
+        name: 'Product 2',
+        price: 100,
+        stock: 5,
+        category: 'Category 2',
+        preparationTime: 15,
+        description: 'Description 2',
+        enabled: true,
+        figureUrl: 'http://example.com/product2.jpg',
+      },
     ];
     const orderEntityRequest = {
       orderItems: [
-        /* mock order items */
+        {
+          productId: 1,
+          quantity: 2,
+          price: 50,
+          preparationTime: 10,
+        },
+        {
+          productId: 2,
+          quantity: 1,
+          price: 100,
+          preparationTime: 15,
+        },
       ],
-      userId: 1,
+      userId: '1',
     };
     const orderEntity: OrderEntity = {
       id: 1,
@@ -79,21 +118,30 @@ describe('CreateOrderUseCase', () => {
       paymentStatus: 'PAID' as PaymentStatusType,
       orderStatus: 'CREATED' as OrderStatusType,
       estimatedPreparationTime: 30,
+      preparationTime: 10,
       productsOrder: [
-        /* mock product orders */
+        {
+          productId: 1,
+          quantity: 2,
+          createdAt: new Date(),
+        },
+        {
+          productId: 2,
+          quantity: 1,
+          createdAt: new Date(),
+        },
       ],
     };
     const orderDto: OrderResponseDto = {
       id: 1,
       totalPrice: 100,
       estimatedPreparationTime: 30,
+      preparationTime: 10,
       paymentStatus: 'PAID' as PaymentStatusType,
       orderStatus: 'CREATED' as OrderStatusType,
       createdAt: new Date(),
       updatedAt: new Date(),
-      productOrders: [
-        /* mock product orders */
-      ],
+      productOrders: [],
     };
 
     jest
@@ -106,7 +154,8 @@ describe('CreateOrderUseCase', () => {
     jest.spyOn(OrderMapper, 'toResponseDto').mockReturnValueOnce(orderDto);
     jest.spyOn(messageProducer, 'sendMessage').mockResolvedValueOnce(undefined);
 
-    const result = await createOrderUseCase.execute(dto);
+    const userId = '1';
+    const result = await createOrderUseCase.execute(dto, userId);
 
     expect(result).toEqual(orderDto);
     expect(productService.findProducts).toHaveBeenCalled();
@@ -139,7 +188,7 @@ describe('CreateOrderUseCase', () => {
       orderItems: [
         /* mock order items */
       ],
-      userId: 1,
+      userId: '1',
     };
     const error = new Error('Order creation failed');
 
@@ -151,7 +200,7 @@ describe('CreateOrderUseCase', () => {
       .mockReturnValueOnce(orderEntityRequest);
     jest.spyOn(orderService, 'createOrder').mockRejectedValueOnce(error);
 
-    await expect(createOrderUseCase.execute(dto)).rejects.toThrow(error);
+    await expect(createOrderUseCase.execute(dto, '1')).rejects.toThrow(error);
     expect(productService.findProducts).toHaveBeenCalled();
     expect(OrderMapper.toCreateOrderEntity).toHaveBeenCalledWith(
       dto,

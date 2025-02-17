@@ -56,12 +56,13 @@ describe('OrderServiceImpl', () => {
 
       const order = new CreateOrderEntity(
         [{ price: 100, quantity: 2, preparationTime: 10, productId: 1 }],
-        1,
+        '1',
       );
-      order.orderItems = [
-        { price: 100, quantity: 2, preparationTime: 10, productId: 1 },
-      ];
-      order.userId = 1;
+      order.userId = '1';
+
+      const orderItems = order.orderItems.map(
+        (item) => new OrderItemEntity(item.price, item.quantity, new Date()),
+      );
 
       const orderEntity = new OrderEntity(
         new TotalPriceValueObject(200),
@@ -69,8 +70,8 @@ describe('OrderServiceImpl', () => {
         OrderStatusType.NONE,
         new Date(),
         20,
-        [orderItem],
-        1,
+        undefined,
+        orderItems,
       );
       jest.spyOn(orderRepository, 'save').mockResolvedValue(orderEntity);
 
@@ -84,11 +85,11 @@ describe('OrderServiceImpl', () => {
       const order = new OrderEntity(
         new TotalPriceValueObject(200),
         PaymentStatusType.PENDING,
-        OrderStatusType.IN_PREPARATION,
+        OrderStatusType.NONE,
         new Date(),
         20,
+        undefined,
         [],
-        1,
       );
       jest.spyOn(orderRepository, 'findById').mockResolvedValue(order);
       jest.spyOn(orderRepository, 'save').mockResolvedValue(order);
@@ -114,8 +115,8 @@ describe('OrderServiceImpl', () => {
         OrderStatusType.NONE,
         new Date(),
         20,
+        undefined,
         [],
-        1,
       );
       jest.spyOn(orderRepository, 'findById').mockResolvedValue(order);
       jest.spyOn(orderRepository, 'save').mockResolvedValue(order);
@@ -141,8 +142,8 @@ describe('OrderServiceImpl', () => {
         OrderStatusType.NONE,
         new Date(),
         20,
+        undefined,
         [],
-        1,
       );
       jest.spyOn(orderRepository, 'findById').mockResolvedValue(order);
       jest.spyOn(orderRepository, 'save').mockResolvedValue(order);
@@ -167,8 +168,8 @@ describe('OrderServiceImpl', () => {
         OrderStatusType.NONE,
         new Date(),
         20,
+        undefined,
         [],
-        1,
       );
       jest.spyOn(orderRepository, 'findById').mockResolvedValue(order);
 
@@ -192,8 +193,8 @@ describe('OrderServiceImpl', () => {
           OrderStatusType.NONE,
           new Date(),
           20,
+          undefined,
           [],
-          1,
         ),
       ];
       jest.spyOn(orderRepository, 'findAll').mockResolvedValue(orders);

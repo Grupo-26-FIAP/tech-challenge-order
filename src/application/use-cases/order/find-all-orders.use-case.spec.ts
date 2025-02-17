@@ -29,6 +29,7 @@ describe('FindAllOrdersUseCase', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       productsOrder: [],
+      preparationTime: 20,
     },
     {
       id: 2,
@@ -39,6 +40,7 @@ describe('FindAllOrdersUseCase', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       productsOrder: [],
+      preparationTime: 25,
     },
   ];
 
@@ -51,6 +53,7 @@ describe('FindAllOrdersUseCase', () => {
       orderStatus: OrderStatusType.IN_PREPARATION,
       createdAt: new Date(),
       updatedAt: new Date(),
+      preparationTime: 20,
       productOrders: [],
     },
     {
@@ -61,6 +64,7 @@ describe('FindAllOrdersUseCase', () => {
       orderStatus: OrderStatusType.IN_PREPARATION,
       createdAt: new Date(),
       updatedAt: new Date(),
+      preparationTime: 25,
       productOrders: [],
     },
   ];

@@ -51,6 +51,7 @@ describe('ApproveOrderUseCase', () => {
       paymentStatus: 'PAID' as PaymentStatusType,
       orderStatus: 'APPROVED' as OrderStatusType,
       estimatedPreparationTime: 30,
+      preparationTime: 15,
       productsOrder: [],
     };
 
