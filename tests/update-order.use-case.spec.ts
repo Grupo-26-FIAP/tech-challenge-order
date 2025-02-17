@@ -4,8 +4,8 @@ import {
 } from '@Domain/services/order/order.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
-import { UpdateOrderRequestDto } from '../../dtos/request/order/update-order.request.dto';
-import { UpdateOrderUseCase } from './update-order.use-case';
+import { UpdateOrderRequestDto } from '../src/application/dtos/request/order/update-order.request.dto';
+import { UpdateOrderUseCase } from '../src/application/use-cases/order/update-order.use-case';
 
 describe('UpdateOrderUseCase', () => {
   let updateOrderUseCase: UpdateOrderUseCase;

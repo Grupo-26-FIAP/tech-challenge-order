@@ -6,15 +6,15 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
 import { PaymentStatusType } from '@Shared/enums/payment-status-type.enum';
-import { CreateOrderEntity } from '../../entities/create-order.entity';
-import { OrderItemEntity } from '../../entities/order-item.entity';
-import { OrderEntity } from '../../entities/order.entity';
+import { CreateOrderEntity } from '../src/domain/entities/create-order.entity';
+import { OrderItemEntity } from '../src/domain/entities/order-item.entity';
+import { OrderEntity } from '../src/domain/entities/order.entity';
 import {
   IOrderRepository,
   IOrderRepositorySymbol,
-} from '../../repositories/order.repository';
-import { TotalPriceValueObject } from '../../value-objects/total-price.value-objects';
-import { OrderServiceImpl } from './order.service.impl';
+} from '../src/domain/repositories/order.repository';
+import { TotalPriceValueObject } from '../src/domain/value-objects/total-price.value-objects';
+import { OrderServiceImpl } from '../src/domain/services/order/order.service.impl';
 
 describe('OrderServiceImpl', () => {
   let service: OrderServiceImpl;

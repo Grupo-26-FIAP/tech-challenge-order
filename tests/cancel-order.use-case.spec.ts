@@ -3,7 +3,7 @@ import {
   IOrderServiceSymbol,
 } from '@Domain/services/order/order.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { CancelOrderUseCase } from './cancel-order.use-case';
+import { CancelOrderUseCase } from '../src/application/use-cases/order/cancel-order.use-case';
 
 describe('CancelOrderUseCase', () => {
   let cancelOrderUseCase: CancelOrderUseCase;

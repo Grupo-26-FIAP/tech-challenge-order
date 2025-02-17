@@ -9,10 +9,10 @@ import { IProductService } from '@Infrastructure/services/product.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
 import { PaymentStatusType } from '@Shared/enums/payment-status-type.enum';
-import { CreateOrderRequestDto } from '../../dtos/request/order/create-order.request.dto';
-import { OrderResponseDto } from '../../dtos/response/order/order.response.dto';
-import { OrderMapper } from '../../mappers/order.mapper';
-import { CreateOrderUseCase } from './create-order.use-case';
+import { CreateOrderRequestDto } from '../src/application/dtos/request/order/create-order.request.dto';
+import { OrderResponseDto } from '../src/application/dtos/response/order/order.response.dto';
+import { OrderMapper } from '../src/application/mappers/order.mapper';
+import { CreateOrderUseCase } from '../src/application/use-cases/order/create-order.use-case';
 
 describe('CreateOrderUseCase', () => {
   let createOrderUseCase: CreateOrderUseCase;

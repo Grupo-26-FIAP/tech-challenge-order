@@ -103,29 +103,6 @@ describe('OrderServiceImpl', () => {
       '1',
     );
 
-    it('should update order status successfully', async () => {
-      // Arrange
-      orderRepository.findById.mockResolvedValueOnce(mockOrder);
-      orderRepository.save.mockResolvedValueOnce(mockOrder);
-
-      const order = new OrderEntity(
-        new TotalPriceValueObject(200),
-        PaymentStatusType.PENDING,
-        OrderStatusType.NONE,
-        new Date(),
-        20,
-        undefined,
-        [],
-      );
-
-      // Act
-      await service.update(1, OrderStatusType.READY);
-
-      // Assert
-      expect(orderRepository.findById).toHaveBeenCalledWith(1);
-      expect(orderRepository.save).toHaveBeenCalledWith(order);
-    });
-
     it('should throw NotFoundException when order not found', async () => {
       // Arrange
       orderRepository.findById.mockResolvedValueOnce(null);

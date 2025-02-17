@@ -7,9 +7,9 @@ import { TotalPriceValueObject } from '@Domain/value-objects/total-price.value-o
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
 import { PaymentStatusType } from '@Shared/enums/payment-status-type.enum';
-import { OrderResponseDto } from '../../dtos/response/order/order.response.dto';
-import { OrderMapper } from '../../mappers/order.mapper';
-import { FindAllOrdersUseCase } from './find-all-orders.use-case';
+import { OrderResponseDto } from '../src/application/dtos/response/order/order.response.dto';
+import { OrderMapper } from '../src/application/mappers/order.mapper';
+import { FindAllOrdersUseCase } from '../src/application/use-cases/order/find-all-orders.use-case';
 
 describe('FindAllOrdersUseCase', () => {
   let useCase: FindAllOrdersUseCase;

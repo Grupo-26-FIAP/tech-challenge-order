@@ -1,10 +1,10 @@
 import { OrderItemEntity } from '@Domain/entities/order.entity';
+import { OrderItemRepositoryImpl } from '@Infrastructure/repositories/order-item.repository.impl';
 import { OrderItemMapper } from '@Infrastructure/typeorm/mappers/order-item.mapper';
 import { OrderItemModel } from '@Infrastructure/typeorm/models/order-item.model';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { OrderItemRepositoryImpl } from './order-item.repository.impl';
 
 describe('OrderItemRepositoryImpl', () => {
   let repository: OrderItemRepositoryImpl;

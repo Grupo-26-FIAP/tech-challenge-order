@@ -9,7 +9,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderStatusType } from '@Shared/enums/order-status-type.enum';
 import { PaymentStatusType } from '@Shared/enums/payment-status-type.enum';
-import { ApproveOrderUseCase } from './approve-order.use-case';
+import { ApproveOrderUseCase } from '../src/application/use-cases/order/approve-order.use-case';
 
 describe('ApproveOrderUseCase', () => {
   let useCase: ApproveOrderUseCase;

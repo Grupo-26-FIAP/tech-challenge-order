@@ -73,7 +73,7 @@ export class OrderServiceImpl implements IOrderService {
       orderStatus === OrderStatusType.READY
     ) {
       const now = new Date();
-      const preparationDuration = now.getTime() - order.updatedAt.getTime();
+      const preparationDuration = now.getTime() - order.updatedAt?.getTime();
 
       order.preparationTime = Math.ceil(preparationDuration / 1000 / 60);
     }
