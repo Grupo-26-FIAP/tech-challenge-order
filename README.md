@@ -1,5 +1,11 @@
 # 🛒 Tech Challenge - Order
 
+![Badge](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
+![Badge](https://img.shields.io/badge/Contributors-Grupo%2026-blue)
+![Badge](https://img.shields.io/badge/License-MIT-green)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Grupo-26-FIAP_tech-challenge-order&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Grupo-26-FIAP_tech-challenge-order)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Grupo-26-FIAP_tech-challenge-order&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Grupo-26-FIAP_tech-challenge-order)
+
 ## 📌 Sobre o Projeto
 O **Tech Challenge - Order** é um microsserviço responsável pela gestão de pedidos dentro do ecossistema do Tech Challenge. Ele permite a criação, consulta e atualização de pedidos, garantindo a rastreabilidade e consistência das operações.
 
