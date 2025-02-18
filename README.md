@@ -10,7 +10,7 @@ O **Tech Challenge - Order** é um microsserviço responsável pela gestão de p
 - **TypeORM** - ORM para gerenciar interações com o banco de dados
 - **Docker** - Containerização do microsserviço
 - **Jest** - Testes unitários e de integração
-- **RabbitMQ** - Mensageria para comunicação assíncrona entre microsserviços
+- **SQS** - Mensageria para comunicação assíncrona entre microsserviços
 - **Swagger** - Documentação da API
 
 ## ⚙️ Como Executar o Projeto
@@ -56,7 +56,38 @@ http://localhost:3001/api
 ```
 
 ## 📬 Comunicação Entre Microsserviços
-O microsserviço de pedidos se comunica com os demais através do **RabbitMQ**, publicando eventos sobre status dos pedidos e consumindo mensagens de outros serviços.
+O microsserviço de pedidos se comunica com os demais através do **SQS**, publicando eventos sobre status dos pedidos e consumindo mensagens de outros serviços.
+
+## Documentação do Banco de Dados
+
+Este documento descreve a estrutura do banco de dados utilizado no projeto. Inclui a descrição de cada tabela, suas colunas e os relacionamentos entre elas.
+
+### Diagrama do Banco de Dados
+
+O diagrama abaixo ilustra a estrutura das tabelas e suas relações:
+
+```mermaid
+erDiagram
+    order {
+        int id
+        float totalPrice
+        int estimatedPreparationTime
+        int preparationTime
+        string paymentStatus
+        string orderStatus
+        datetime created_at
+        datetime updated_at
+        int userId
+    }
+    orderItem {
+        int id
+        int orderId
+        int productId
+        int quantity
+        datetime created_at
+    }
+    order ||--o{ orderItem : contains
+```
 
 ## 🛠 Equipe e Contribuição
 Este projeto faz parte do **Tech Challenge** da **FIAP**. Contribuições são bem-vindas! Para contribuir:
