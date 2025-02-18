@@ -89,6 +89,18 @@ erDiagram
     order ||--o{ orderItem : contains
 ```
 
+## 👥 Time de Desenvolvimento
+
+| Nome                           | RM           | E-mail                                                             | GitHub                                             |
+| ------------------------------ | ------------ | ------------------------------------------------------------------ | -------------------------------------------------- |
+| Jhoni Farias                   | **RM357358** | [jhonifarias.developer@gmail.com](jhonifarias.developer@gmail.com) | [@JhoniFarias](https://github.com/JhoniFarias)     |
+| Josef Henrique Zambreti        | **RM357836** | [josefhenrique@uol.com.br](josefhenrique@uol.com.br)               | [@Josefhz](https://github.com/Josefhz)             |
+| Lucas Rodrigues Medina Costa   | **RM357360** | [lucasmedinarmc@gmail.com](lucasmedinarmc@gmail.com)               | [@diname](https://github.com/diname)               |
+| Kleber de Oliveira Andrade     | **RM358012** | [pdjkleber@gmail.com](pdjkleber@gmail.com)                         | [@kleberandrade](https://github.com/kleberandrade) |
+| Vitória Camila Xavier Sobrinho | **RM357235** | [vcamilaxs@gmail.com](vcamilaxs@gmail.com)                         | [@itsvickie](https://github.com/itsvickie)         |
+
+
+
 ## 🛠 Equipe e Contribuição
 Este projeto faz parte do **Tech Challenge** da **FIAP**. Contribuições são bem-vindas! Para contribuir:
 1. Crie um fork do repositório
