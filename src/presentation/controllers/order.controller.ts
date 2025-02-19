@@ -3,8 +3,7 @@ import { OrderResponseDto } from '@Application/dtos/response/order/order.respons
 import { CreateOrderUseCase } from '@Application/use-cases/order/create-order.use-case';
 import { FindAllOrdersUseCase } from '@Application/use-cases/order/find-all-orders.use-case';
 import { FindOrderByIdUseCase } from '@Application/use-cases/order/find-order-by-id.use-case';
-import { ProductServiceImpl } from '@Infrastructure/services/product.service.impl';
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -20,8 +19,6 @@ export class OrderController {
     private readonly createOrderUseCase: CreateOrderUseCase,
     private readonly findOrderByIdUseCase: FindOrderByIdUseCase,
     private readonly findAllOrdersUseCase: FindAllOrdersUseCase,
-    @Inject(ProductServiceImpl)
-    private readonly productServiceImpl: ProductServiceImpl,
   ) {}
 
   @Post()
