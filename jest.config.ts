@@ -43,6 +43,7 @@ const config: Config.InitialOptions = {
     '.eslintrc.js',
     'jest.config.ts',
     'cucumber.js',
+    '/test/',
   ],
   coverageReporters: ['html', 'text', 'lcov'],
 };
